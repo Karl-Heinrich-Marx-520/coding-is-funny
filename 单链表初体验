@@ -1,0 +1,68 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+//difine a single linked list structure
+typedef struct Node
+{
+	int date;
+	struct Node* next;
+}Node;
+
+//头插法
+void insert_at_head(Node* head, int date)
+{
+	Node* new_node = (Node*)malloc(sizeof(Node));
+	if (new_node == NULL)
+	{
+		printf("failure\n");
+		return;
+	}
+	new_node->date = date;
+	new_node->next = head->next;
+	head->next = new_node;
+}
+
+void traverse_list(Node* head)
+{
+	Node* current = head->next;
+	while (current != NULL)
+	{
+		printf("%d->", current->date);
+		current = current->next;
+	}
+	printf("NULL\n");
+}
+
+void free_list(Node* head)
+{
+	Node* current = head;
+	while (current != NULL)
+	{
+		Node* temp = current;
+		current = temp->next;
+		free(temp);
+	}
+
+}
+
+int main()
+{
+	Node* head = (Node*)malloc(sizeof(Node));
+	if (head == NULL)
+	{
+		printf("failure\n");
+		return 1;
+	}
+	head->date = 0;
+	head->next = NULL;
+	insert_at_head(head, 10);
+	insert_at_head(head, 20);
+	insert_at_head(head, 30);
+	traverse_list(head);
+	free_list(head);
+
+
+	return 0;
+}
