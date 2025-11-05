@@ -1,0 +1,28 @@
+int main()
+{
+	char file[100];
+	char mode[5];
+
+	printf("path:->");
+	scanf("%s", &file);
+	printf("\nstrategy:->");
+	scanf("%s", &mode);
+
+	FILE* fp = fopen(file, mode);
+	if (fp == NULL)
+	{
+		printf("failure\n");
+		return 1;
+	}
+	else
+		printf("success\n");
+
+	int ret = fclose(fp);
+	if (ret == 0)
+	{
+		printf("success\n");
+	}
+	else
+		printf("failure\n");
+	return 0;
+}
