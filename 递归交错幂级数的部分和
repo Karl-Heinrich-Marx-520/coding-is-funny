@@ -1,0 +1,31 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+
+//本题要求递归实现一个函数，计算下列简单交错幂级数的部分和：
+//只能用<stdio.h>头文件中的函数进行输入输出操作，不能使用其他头文件中的任何函数。
+
+double fn(double x, int n)
+{
+    if (n == 1)
+        return x;
+    else
+    {
+        // 计算 x^n，不能使用 math.h 的 pow
+        double p = 1.0;
+        for (int i = 0; i < n; i++)
+            p *= x;
+        double sign = (n % 2 == 0) ? -1.0 : 1.0;
+        return fn(x, n - 1) + sign * p;
+    }
+}
+
+int main()
+{
+    double x;
+    int n;
+
+    scanf("%lf %d", &x, &n);
+    printf("%.2f\n", fn(x, n));
+
+    return 0;
+}
