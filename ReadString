@@ -1,0 +1,10 @@
+void ReadString(char s[])
+{
+  int i = 0;
+  char ch;
+  while ((ch = getchar()) != '\n')
+    s[i++] = ch;
+  s[i] = '\n';
+}
+
+// ReadString == scanf("%s", &s[])
