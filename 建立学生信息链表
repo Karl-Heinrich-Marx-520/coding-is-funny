@@ -1,0 +1,33 @@
+void input()
+{
+    int num, score;
+    char name[20];
+    while(1)
+    {
+        //读取数据
+        scanf("%d", &num);
+        if(num == 0)
+            break;
+        scanf("%s %d", name, &score);
+        //更新节点
+        struct stud_node* new_node = (struct stud_node*)malloc(sizeof(stud_node));
+        if(new_node == NULL)
+            return;
+        new_node->num = num;
+        strcpy(new_node->name , name);
+        new_node->score = score;
+        new_node->next = NULL;
+        //插入新节点
+        if(head == NULL)
+        {
+            head = new_node;
+            tail = new_node;
+        }
+        else
+        {
+            tail->next = new_node;
+            tail = new_node;
+        }
+        
+    }
+}
