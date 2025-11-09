@@ -1,0 +1,110 @@
+#include<stdio.h>
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+
+typedef struct Node
+{
+	int date;
+	Node* next;
+}Node;
+
+void Create_List(Node* head, int n)
+{
+	Node* p, * r;
+	head = (Node*)malloc(sizeof(Node));
+	head->date = 0;
+	head->next = NULL;
+	r = head;
+	for (int i = 0; i < n; i++)
+	{
+		p = (Node*)malloc(sizeof(Node));
+		cin >> p->date;
+		p->next = NULL;
+		r->next = p;
+		r = p;
+	}
+}
+
+void insert_at_tail(Node* head, int dask)
+{
+	Node* new_node = (Node*)malloc(sizeof(Node));
+	new_node->date = dask;
+	new_node->next = NULL;
+	if (head == NULL)
+		head = new_node;
+	else
+	{
+		Node* curr = head;
+		while (curr->next != NULL)
+			curr = curr->next;
+		curr->next = new_node;
+	}
+}
+
+void insert_at_head(Node* head, int dask)
+{
+	Node* new_node = (Node*)malloc(sizeof(Node));
+	new_node->date = dask;
+	new_node->next = NULL;
+	if (head == NULL)
+		head = new_node;
+	else
+	{
+		new_node->next = head->next;
+		head->next = new_node;
+	}
+}
+
+void insert_at_position(Node* head, int dask, int pos)
+{
+	Node* new_node = (Node*)malloc(sizeof(Node));
+	new_node->date = dask;
+	new_node->next = NULL;
+	if (head == NULL)
+	{
+		cout << "failure" << endl;
+		return;
+	}
+	else
+	{
+		Node* curr = (Node*)malloc(sizeof(Node));
+		curr = head;
+		for (int i = 0; i < pos-1 && curr != NULL; ++i)
+		{
+			curr = curr->next;
+		}
+		if (curr != NULL)
+		{
+			new_node->next = curr->next;
+			curr->next = new_node;
+		}
+		else
+		{
+			free(new_node);
+			cout << "out of position" << endl;
+		}
+	}
+}
+
+void free_List(Node* head)
+{
+	Node* curr = head;
+	while (curr != NULL)
+	{
+		Node* temp = curr;
+		curr = temp->next;
+		free(temp);
+	}
+}
+
+void print_List(Node* head)
+{
+	Node* curr = head->next;
+	while (curr != NULL)
+	{
+		cout << curr->date << " ";
+		curr = curr->next;
+	}
+	cout << endl;
+}
