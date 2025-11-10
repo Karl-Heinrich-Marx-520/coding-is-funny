@@ -1,0 +1,87 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>  // for sort
+
+int main() {
+    std::cout << "=== vector示例 ===" << std::endl;
+
+    // 创建空vector
+    std::vector<int> scores;
+
+    // 添加元素
+    scores.push_back(85);
+    scores.push_back(90);
+    scores.push_back(78);
+    scores.push_back(92);
+    scores.push_back(88);
+
+    std::cout << "分数: ";
+    for (int score : scores) {
+        std::cout << score << " ";
+    }
+    std::cout << std::endl;
+
+    // 访问元素
+    std::cout << "第一个分数: " << scores[0] << std::endl;
+    std::cout << "最后一个分数: " << scores[scores.size()-1] << std::endl;
+    std::cout << "使用at()访问: " << scores.at(2) << std::endl;
+
+    // 获取大小
+    std::cout << "\nvector大小: " << scores.size() << std::endl;
+    std::cout << "vector容量: " << scores.capacity() << std::endl;
+    std::cout << "是否为空: " << (scores.empty() ? "是" : "否") << std::endl;
+
+    // 修改元素
+    scores[2] = 95;
+    std::cout << "\n修改后的分数: ";
+    for (int score : scores) {
+        std::cout << score << " ";
+    }
+    std::cout << std::endl;
+
+    // 删除最后一个元素
+    scores.pop_back();
+    std::cout << "删除最后一个后: ";
+    for (int score : scores) {
+        std::cout << score << " ";
+    }
+    std::cout << std::endl;
+
+    // 插入元素
+    scores.insert(scores.begin() + 2, 100);  // 在索引2处插入100
+    std::cout << "插入100后: ";
+    for (int score : scores) {
+        std::cout << score << " ";
+    }
+    std::cout << std::endl;
+
+    // 排序
+    std::sort(scores.begin(), scores.end());
+    std::cout << "排序后: ";
+    for (int score : scores) {
+        std::cout << score << " ";
+    }
+    std::cout << std::endl;
+
+    // 清空vector
+    scores.clear();
+    std::cout << "\n清空后大小: " << scores.size() << std::endl;
+
+    // 使用初始化列表创建vector（C++11）
+    std::vector<int> numbers = {1, 2, 3, 4, 5};
+    std::cout << "使用初始化列表: ";
+    for (int num : numbers) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    // 创建指定大小的vector
+    std::vector<int> zeros(10, 0);  // 10个0
+    std::cout << "10个0: ";
+    for (int z : zeros) {
+        std::cout << z << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
