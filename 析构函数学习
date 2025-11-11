@@ -1,0 +1,63 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
+#include <iostream>
+#include <string>
+
+class Resource {
+private:
+    std::string name;
+    int* data;
+
+public:
+    // 构造函数
+    Resource(std::string n, int size) : name(n) {
+        data = new int[size];
+        std::cout << "Resource '" << name << "' 创建，分配了 " << size << " 个整数" << std::endl;
+    }
+
+    // 析构函数
+    ~Resource() {
+        delete[] data;
+        std::cout << "Resource '" << name << "' 销毁，内存已释放" << std::endl;
+    }
+
+    void setData(int index, int value) {
+        data[index] = value;
+    }
+
+    int getData(int index) const {
+        return data[index];
+    }
+};
+
+void demonstrateLifetime() {
+    std::cout << "进入函数" << std::endl;
+    Resource r1("局部资源", 10);
+    r1.setData(0, 42);
+    std::cout << "数据: " << r1.getData(0) << std::endl;
+    std::cout << "离开函数" << std::endl;
+}  // r1在这里被销毁，析构函数自动调用
+
+int main() {
+    std::cout << "=== 析构函数示例 ===" << std::endl;
+
+    {
+        Resource r1("块作用域资源", 5);
+    }  // r1离开作用域，析构函数调用
+
+    std::cout << "\n调用函数:" << std::endl;
+    demonstrateLifetime();
+
+    std::cout << "\n创建多个对象:" << std::endl;
+    Resource* r2 = new Resource("动态资源", 20);
+    delete r2;  // 手动删除，调用析构函数
+
+    std::cout << "\n程序结束" << std::endl;
+    return 0;
+}
+
+
+
+
+
