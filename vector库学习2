@@ -1,0 +1,33 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+
+using namespace std;
+
+
+int main()
+{
+	vector<int> scores;
+
+	scores.push_back(1);
+	scores.push_back(2);
+	scores.push_back(3);
+	scores.push_back(4);
+
+	for (int score : scores) cout << score << " ";
+	cout << endl;
+
+	cout << scores[0] << endl;
+	cout << scores[scores.size() - 1] << endl;
+	cout << scores.at(0) << endl;
+
+	cout << scores.size() << endl;
+	cout << scores.capacity() << endl;
+	cout << (scores.empty() ? "yes" : "no") << endl;
+
+
+
+
+	return 0;
+}
