@@ -1,0 +1,81 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include<iostream>
+#include<string>
+#include<vector>
+
+using namespace std;
+
+
+//父类：动物
+class Animal 
+{
+private : 
+	int age;
+
+public :
+	Animal(int a) : age(a) {}
+	int getAge() { return age; }
+	virtual void speak()
+	{
+		cout << "动物在叫~" << endl;
+	}
+};
+
+//子类：猫
+class Cat : public Animal
+{
+public :
+	Cat(int a) : Animal(a) {}
+	void speak() override
+	{
+		cout << "喵喵喵~我今年" << getAge() << "岁" << endl;
+	}
+};
+
+//子类：狗
+class Dog : public Animal
+{
+public :
+	Dog(int a) : Animal(a) {}
+	void speak() override
+	{
+		cout << "汪汪汪~我今年" << getAge() << "岁" << endl;
+	}
+};
+
+int main()
+{
+	//多态核心
+	Animal* cat = new Cat(2);
+	Animal* dog = new Dog(2);
+
+	cat->speak();
+	dog->speak();
+	cout << "猫的年龄" << cat->getAge() << endl;
+
+	delete cat;
+	delete dog;
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
