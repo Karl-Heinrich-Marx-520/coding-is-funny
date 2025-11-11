@@ -1,0 +1,74 @@
+
+#include <iostream>
+#include <string>
+
+class BankAccount {
+private:  // 私有成员：只能在类内部访问
+    double balance;
+    std::string password;
+
+    // 私有辅助函数
+    bool verifyPassword(std::string pwd) const {
+        return pwd == password;
+    }
+
+public:  // 公有成员：可以从任何地方访问
+    std::string accountNumber;
+    std::string ownerName;
+
+    // 初始化账户
+    void initialize(std::string accNum, std::string owner, std::string pwd) {
+        accountNumber = accNum;
+        ownerName = owner;
+        password = pwd;
+        balance = 0.0;
+    }
+
+    // 存款
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            std::cout << "存入成功！当前余额: " << balance << " 元" << std::endl;
+        }
+    }
+
+    // 取款（需要密码）
+    void withdraw(double amount, std::string pwd) {
+        if (!verifyPassword(pwd)) {
+            std::cout << "密码错误！" << std::endl;
+            return;
+        }
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            std::cout << "取款成功！当前余额: " << balance << " 元" << std::endl;
+        } else {
+            std::cout << "余额不足！" << std::endl;
+        }
+    }
+
+    // 查询余额
+    double getBalance() const {
+        return balance;
+    }
+};
+
+int main() {
+    std::cout << "=== 访问修饰符示例 ===" << std::endl;
+
+    BankAccount account;
+    account.initialize("123456", "李四", "secret123");
+
+    // 可以访问public成员
+    std::cout << "账户: " << account.accountNumber << std::endl;
+
+    // 不能直接访问private成员
+    // account.balance = 1000;  // 错误！balance是私有的
+
+    account.deposit(1000);
+    account.withdraw(300, "secret123");
+    account.withdraw(300, "wrong");  // 密码错误
+
+    std::cout << "最终余额: " << account.getBalance() << " 元" << std::endl;
+
+    return 0;
+}
