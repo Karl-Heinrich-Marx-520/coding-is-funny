@@ -1,0 +1,20 @@
+void CountOff(int n, int m, int out[])
+{
+    int flag[MAXN] = {0}; // 标记是否退出，0为未退出，1为已退出
+    int current = -1;     // 当前位置，初始为-1（下次从0开始）
+    int k;                // 退出顺序（1到n）
+
+    for (k = 1; k <= n; k++) {
+        int step = 0;
+        // 寻找第m个未退出的人
+        while (step < m) {
+            current = (current + 1) % n; // 循环移动到下一个位置
+            if (flag[current] == 0) {    // 未退出则计数
+                step++;
+            }
+        }
+        // 记录当前人的退出顺序
+        flag[current] = 1;
+        out[current] = k;
+    }
+}
