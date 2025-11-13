@@ -1,0 +1,57 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+
+int fib(int n);
+void PrintFN(int m, int n);
+
+int main()
+{
+    int m, n, t;
+
+    scanf("%d %d %d", &m, &n, &t);
+    printf("fib(%d) = %d\n", t, fib(t));
+    PrintFN(m, n);
+
+    return 0;
+}
+
+int fib(int n)
+{
+    int n1 = 1, n2 = 1, ret = 0;
+    if (n == 1 || n == 2) return 1;
+    for (int i = 3; i <= n; i++)
+    {
+        ret = n1 + n2;
+        n1 = n2;
+        n2 = ret;
+    }
+    return ret;
+}
+
+
+void PrintFN(int m, int n)
+{
+	int count = 0, a = 1, b = 1, c = 0;
+    int isFirst = 1;
+    for (int i = m; i <= n; i++)
+    {
+        while(b < i)
+        {
+            c = a + b;
+            a = b;
+            b = c;
+		}
+        if (b == i)
+        {
+            count++;
+            if (isFirst)
+            {
+                printf("%d", i);
+                isFirst = 0;
+            }
+            else  printf(" %d", i);
+        }
+    }
+    if (count == 0) printf("No Fibonacci number\n");
+}
