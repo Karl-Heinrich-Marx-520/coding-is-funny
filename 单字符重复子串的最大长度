@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int maxRepOpt1(string s) {
+        vector<vector<pair<int, int>>> id_lens(26);
+        int l = 0, r = 0;
+        while(l < s.size()){
+            r = l;
+            while(r+1 < s.size() && s[r+1] == s[l]) r++;
+            id_lens[s[l]-'a'].push_back({l, r-l+1});
+            l = r+1;
+        }
+
+        int ans = 0;
+        for(auto id_len : id_lens){
+            int n = id_len.size();
+            if(id_len.size() == 1) ans = max(ans, id_len[0].second);//1
+
+            for(int left = 0, r = 1; r < n; ++r, ++left){
+                
+                if(id_len.size() == 2){//2
+                    ans = max({ans, id_len[r].second+1, id_len[left].second+1});
+                    if(id_len[left].first + id_len[left].second + 1 == id_len[r].first){
+                        ans = max(ans, id_len[left].second + id_len[r].second);
+                    }
+
+                } else {//>= 3
+                    ans = max({ans, id_len[r].second+1, id_len[left].second+1});
+                    if(id_len[left].first + id_len[left].second + 1 == id_len[r].first){
+                        ans = max(ans, id_len[left].second + id_len[r].second+1);
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+// 0-3 4-3
+// 1 2 3  6 7 8
+// 1 2 3  5 6 7
+// 1 2  4 5  7 8 9 
