@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>529</width>
+    <height>411</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* 全局暗黑背景 */
+* {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+/* 主窗口 + 中间面板 */
+QMainWindow, QWidget#centralwidget {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+/* 向导对话框（你现在看不清的那个） */
+QWizard, QWizardPage {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+/* 所有文字标签 */
+QLabel {
+    color: white;
+}
+
+/* 按钮样式 */
+QPushButton {
+    background-color: #333333;
+    color: white;
+    border: 1px solid #555555;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+QPushButton:hover {
+    background-color: #444444;
+}
+QPushButton:pressed {
+    background-color: #555555;
+}
+
+/* 输入框、文本框 */
+QLineEdit, QTextEdit {
+    background-color: #2a2a2a;
+    color: white;
+    border: 1px solid #555555;
+    padding: 4px;
+}
+
+/* 菜单栏 */
+QMenuBar {
+    background-color: #222222;
+    color: white;
+}
+QMenuBar::item:selected {
+    background-color: #444444;
+}
+
+/* 菜单 */
+QMenu {
+    background-color: #2b2b2b;
+    color: white;
+}
+QMenu::item:selected {
+    background-color: #555555;
+}
+
+/* 滚动条 */
+QScrollBar:vertical {
+    background-color: #2a2a2a;
+    width: 14px;
+}
+QScrollBar::handle:vertical {
+    background-color: #666666;
+    min-height: 20px;
+}
+
+/* 修正 Wizard 底部白色按钮栏 */
+QWizard QDialogButtonBox, QWizard QPushButton#qt_wizard_finish, QWizard QPushButton#qt_wizard_cancel {
+    background-color: #1a1a1a;
+    color: white;
+    border: 1px solid #555;
+}
+QWizard QDialogButtonBox {
+    background-color: #1a1a1a;
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="1">
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="text">
+       <string>Inquire Dialog</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="text">
+       <string>条目Dialog</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QPushButton" name="colorBtn">
+      <property name="text">
+       <string>color Dialog</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="NumberBtn">
+      <property name="text">
+       <string>Number input Dialog</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QPushButton" name="pushButton_6">
+      <property name="text">
+       <string>Wizard Dialog</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="textBtn">
+      <property name="text">
+       <string>Text Dialog</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>Double Dialog</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="text">
+       <string>Notice Dialog</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="pushButton_5">
+      <property name="text">
+       <string>进度 Dialog</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>529</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuMain_Window">
+    <property name="styleSheet">
+     <string notr="true">QMainWindow, QWidget#centralwidget {
+    background-color: black;
+}</string>
+    </property>
+    <property name="title">
+     <string>Main Window</string>
+    </property>
+   </widget>
+   <addaction name="menuMain_Window"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
