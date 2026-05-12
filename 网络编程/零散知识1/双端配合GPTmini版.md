@@ -151,6 +151,92 @@ int main() {
     }
     return 0;
 }
+
+//-----------------------------------------理解版--------------------------
+#include <boost/asio.hpp>
+#include <iostream>
+#include <string>
+
+using boost::asio::ip::tcp;
+
+constexpr unsigned short PORT = 33333;
+constexpr std::size_t BUFFER_SIZE = 1024;
+
+// 按截图形式实现create_acceptor：返回tcp::acceptor，步骤与注释对齐
+tcp::acceptor create_acceptor(boost::asio::io_context& ioc, 
+                               unsigned short port, 
+                               boost::system::error_code& ec) {
+    tcp::acceptor acceptor(ioc);
+    acceptor.open(tcp::v4(), ec);                  // 打开 acceptor，指定使用 IPv4 协议
+    if (ec) return acceptor;
+
+    acceptor.set_option(boost::asio::socket_base::reuse_address(true), ec); // 允许地址重用
+    if (ec) return acceptor;
+
+    acceptor.bind(tcp::endpoint(tcp::v4(), port), ec); // 绑定到指定端口
+    if (ec) return acceptor;
+
+    acceptor.listen(boost::asio::socket_base::max_listen_connections, ec); // 开始监听
+    return acceptor;
+}
+
+int main() {
+    boost::asio::io_context ioc;
+    boost::system::error_code ec;
+
+    // 1. 创建并启动acceptor（和截图逻辑一致）
+    auto acceptor = create_acceptor(ioc, PORT, ec);
+    if (ec) {
+        std::cerr << "启动服务器失败: " << ec.message() << std::endl;
+        return 1;
+    }
+    std::cout << "服务器已启动，监听端口: " << PORT << std::endl;
+
+    // 2. 循环接受客户端连接
+    while (true) {
+        tcp::socket client_sock(ioc);
+        acceptor.accept(client_sock, ec);
+        if (ec) {
+            std::cerr << "接受连接失败: " << ec.message() << std::endl;
+            continue;
+        }
+
+        // 获取客户端地址（去掉try/catch，用error_code直接处理）
+        tcp::endpoint client_ep;
+        client_sock.remote_endpoint(client_ep, ec);
+        if (!ec) {
+            std::cout << "新客户端连接: " 
+                      << client_ep.address().to_string() << ":" << client_ep.port() << std::endl;
+        } else {
+            std::cout << "新客户端连接（地址获取失败）" << std::endl;
+        }
+
+        // 3. 接收客户端消息
+        char buf[BUFFER_SIZE] = {0};
+        std::size_t received_len = client_sock.read_some(boost::asio::buffer(buf), ec);
+        if (ec && ec != boost::asio::error::eof) {
+            std::cerr << "接收消息失败: " << ec.message() << std::endl;
+        } else if (received_len > 0) {
+            std::string received_msg(buf, received_len);
+            std::cout << "收到消息: " << received_msg << std::endl;
+
+            // 4. 回复客户端（用write确保数据完整发送）
+            std::string reply_msg = "Hello from Boost Server!";
+            boost::asio::write(client_sock, boost::asio::buffer(reply_msg), ec);
+            if (ec) {
+                std::cerr << "发送回复失败: " << ec.message() << std::endl;
+            }
+        }
+
+        // 5. 关闭连接
+        boost::system::error_code ignored_ec;
+        client_sock.shutdown(tcp::socket::shutdown_both, ignored_ec);
+        client_sock.close(ignored_ec);
+        std::cout << "客户端会话结束，等待新连接..." << std::endl;
+    }
+
+    return 0;
+}
 ```
 
 （注：关键行注释已用 [配合] 标注该调用与远端的协作意义；例如 accept 阻塞直到客户端 connect 完成三次握手）
