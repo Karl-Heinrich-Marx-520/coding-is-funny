@@ -78,34 +78,32 @@ using boost::asio::ip::tcp;
 constexpr unsigned short PORT = 33333;
 constexpr std::size_t BUFFER_SIZE = 1024;
 
-// 创建并配置 acceptor（bind + listen）
-int create_acceptor(tcp::acceptor& acceptor, unsigned short port, boost::system::error_code& ec) {
-    acceptor.open(tcp::v4(), ec);                                  // 打开 IPv4 套接字，准备绑定端口
-    if (ec) return ec.value();
+// 创建并配置 acceptor（bind + listen） 改一下，我还是更喜欢这样写
+tcp::acceptor create_acceptor(boost::asio::io_context& ioc, unsigned short port, boost::system::error_code& ec) {
+	tcp::acceptor acceptor(ioc);
+	acceptor.open(tcp::v4(), ec); // 打开 acceptor，指定使用 IPv4 协议
+	if (ec) return acceptor;
 
-    acceptor.set_option(boost::asio::socket_base::reuse_address(true), ec); // 允许快速重启时重用地址
-    if (ec) return ec.value();
+	acceptor.set_option(boost::asio::socket_base::reuse_address(true), ec); // 允许地址重用
+	if (ec) return acceptor;
 
-    acceptor.bind(tcp::endpoint(tcp::v4(), port), ec);              // 绑定到指定端口 -> 内核知道端口归这个进程
-    if (ec) return ec.value();
+	acceptor.bind(tcp::endpoint(tcp::v4(), port), ec); // 绑定到指定端口
+	if (ec) return acceptor;
 
-    acceptor.listen(boost::asio::socket_base::max_listen_connections, ec); // 开始监听（内核建立等待队列）
-    if (ec) return ec.value();
-
-    return 0;
-}
+	acceptor.listen(boost::asio::socket_base::max_listen_connections, ec); // 开始监听
+	return acceptor;
 
 int main() {
     try {
-        boost::asio::io_context ioc;                               // io_context：用于构造 socket/acceptor 等资源
+        boost::asio::io_context ioc;
         boost::system::error_code ec;
-
-        tcp::acceptor acceptor(ioc);                               // acceptor 关联到 io_context
-        if (create_acceptor(acceptor, PORT, ec) != 0) {
-            std::cerr << "启动 acceptor 失败: " << ec.message() << std::endl;
-            return 1;
+        // 创建并配置 acceptor
+        auto acceptor = create_acceptor(ioc, PORT, ec);
+        if (ec) {
+	        std::cout << "Failed to create acceptor: " << ec.message() << std::endl;
+	        return 1;
         }
-        std::cout << "服务器已启动，监听端口: " << PORT << std::endl;
+      std::cout << "Server is listening on port " << PORT << std::endl;
 
         while (true) {
             tcp::socket client_sock(ioc);                          // 为下一客户端准备的 socket 对象（尚未连接）
