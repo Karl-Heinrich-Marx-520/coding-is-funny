@@ -123,7 +123,11 @@ int main() {
 
             // 接收客户端数据（阻塞，直到客户端发送）
             std::array<char, BUFFER_SIZE> buf;
-            std::size_t n = client_sock.read_some(boost::asio::buffer(buf), ec); // 阻塞等待数据到达内核读取缓冲区
+            std::size_t n = client_sock.read(client_sock,
+				boost::asio::buffer(buf),
+				boost::asio::transfer_at_least(1),
+				ec); // 阻塞等待数据到达内核读取缓冲区
+
             if (ec && ec != boost::asio::error::eof) {
                 std::cerr << "接收失败: " << ec.message() << std::endl;
             } else if (n > 0) {
